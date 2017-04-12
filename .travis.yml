@@ -1,0 +1,16 @@
+language: ruby
+
+rvm:
+  - 2.2.7
+  - 2.3.4
+
+script: bundle exec rspec -fp spec
+
+# Travis CI has an outdated version of bundler on older versions of ruby.
+# See bundler/bundler#3558 for more information
+#before_install:
+#  - gem update --system
+#  - gem update bundler
+
+services:
+  - redis-server
