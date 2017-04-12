@@ -17,7 +17,7 @@ describe Lita::Handlers::OnewheelBeerCraftpourhouse, lita_handler: true do
   it { is_expected.to route_command('craftpourhouseabvlow') }
 
   before do
-    mock = File.open('spec/fixtures/craftpourhouse.html').read
+    mock = File.open('spec/fixtures/craftpourhouse.sonotfuckinghtml').read
     allow(RestClient).to receive(:get) { mock }
   end
 

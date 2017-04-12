@@ -75,8 +75,14 @@ module Lita
       def parse_response(response)
         Lita.logger.debug 'parse_response started.'
         gimme_what_you_got = {}
-        noko = Nokogiri.HTML response
-        noko.css('li.abvBeerMat').each_with_index do |beer_node, index|
+
+        the_damn_thing = ''
+        response.split(/\n/).each do |l|
+          matchers = l.scan(/(<div.*)";/)
+          the_damn_thing = matchers[0][0].to_s.gsub(/\\n/, '').gsub(/\\/, '') if matchers[0]
+        end
+        noko = Nokogiri.HTML the_damn_thing
+        noko.css('div.beer').each_with_index do |beer_node, index|
           # gimme_what_you_got
           tap_name = (index + 1).to_s
 
