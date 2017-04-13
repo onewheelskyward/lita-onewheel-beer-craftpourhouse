@@ -6,40 +6,40 @@ require 'lita-onewheel-beer-base'
 module Lita
   module Handlers
     class OnewheelBeerCraftpourhouse < OnewheelBeerBase
-      route /^cfp$/i,
+      route /^cph$/i,
             :taps_list,
             command: true,
-            help: {'cfp' => 'Display the current Craftpourhouse Bar taps.'}
+            help: {'cph' => 'Display the current Craftpourhouse Bar taps.'}
 
-      route /^cfp ([\w ]+)$/i,
+      route /^cph ([\w ]+)$/i,
             :taps_deets,
             command: true,
-            help: {'cfp 4' => 'Display the Craftpourhouse tap 4 deets, including prices.'}
+            help: {'cph 4' => 'Display the Craftpourhouse tap 4 deets, including prices.'}
 
-      route /^cfp ([<>=\w.\s]+)%$/i,
+      route /^cph ([<>=\w.\s]+)%$/i,
             :taps_by_abv,
             command: true,
-            help: {'cfp >4%' => 'Display Craftpourhouse beers over 4% ABV.'}
+            help: {'cph >4%' => 'Display Craftpourhouse beers over 4% ABV.'}
 
-      route /^cfp ([<>=\$\w.\s]+)$/i,
+      route /^cph ([<>=\$\w.\s]+)$/i,
             :taps_by_price,
             command: true,
-            help: {'cfp <$5' => 'Display Craftpourhouse beers under $5.'}
+            help: {'cph <$5' => 'Display Craftpourhouse beers under $5.'}
 
-      route /^cfp (roulette|random|rand|ran|ra|r)$/i,
+      route /^cph (roulette|random|rand|ran|ra|r)$/i,
             :taps_by_random,
             command: true,
-            help: {'cfp roulette' => 'Can\'t decide what to drink at Craftpourhouse?  Let me do it for you!'}
+            help: {'cph roulette' => 'Can\'t decide what to drink at Craftpourhouse?  Let me do it for you!'}
 
-      route /^cfpabvlow$/i,
+      route /^cphabvlow$/i,
             :taps_low_abv,
             command: true,
-            help: {'cfpabvlow' => 'Show me the lowest Craftpourhouse abv keg.'}
+            help: {'cphabvlow' => 'Show me the lowest Craftpourhouse abv keg.'}
 
-      route /^cfpabvhigh$/i,
+      route /^cphabvhigh$/i,
             :taps_high_abv,
             command: true,
-            help: {'cfpabvhigh' => 'Show me the highest Craftpourhouse abv keg.'}
+            help: {'cphabvhigh' => 'Show me the highest Craftpourhouse abv keg.'}
 
       def send_response(tap, datum, response)
         reply = "Craftpourhouse tap #{tap}) #{get_tap_type_text(datum[:type])}"
