@@ -76,48 +76,33 @@ module Lita
         Lita.logger.debug 'parse_response started.'
         gimme_what_you_got = {}
 
-        the_damn_thing = ''
-        response.split(/\n/).each do |l|
-          matchers = l.scan(/(<div.*)";/)
-          the_damn_thing = matchers[0][0].to_s.gsub(/\\n/, '').gsub(/\\/, '') if matchers[0]
-        end
-        noko = Nokogiri.HTML the_damn_thing
-        noko.css('div.beer').each_with_index do |beer_node, index|
-          # gimme_what_you_got
-          tap_name = (index + 1).to_s
+        beers = JSON.parse(RestClient.get('https://bu7gqj6j5j.execute-api.us-east-1.amazonaws.com/prod/doTheScrapeyThing'))
+        beers['result'].each_with_index do |beer, index|
+          # abv_node = /\d+\.\d+\%/.match(beer_node.css('span.abvABV').text)
+          # if abv_node
+          #   abv = abv_node[0]
+          #   abv.sub! /\%/, ''
+          # end
+          #
+          # ibu_node = /IBU: \d+/.match(beer_node.css('span.abvABV').text)
+          # if ibu_node
+          #   ibu = ibu_node[0]
+          #   ibu.sub! /IBU /, ''
+          # end
 
-          brewery = beer_node.css('span.abvProducerURL').text
-          beer_name = beer_node.css('span.abvBeverageName').text.to_s.strip
-
-          beer_type = beer_node.css('span.abvRateBeer').children[0].to_s.strip
-
-          beer_desc = ''
-
-          abv_node = /\d+\.\d+\%/.match(beer_node.css('span.abvABV').text)
-          if abv_node
-            abv = abv_node[0]
-            abv.sub! /\%/, ''
-          end
-
-          ibu_node = /IBU: \d+/.match(beer_node.css('span.abvABV').text)
-          if ibu_node
-            ibu = ibu_node[0]
-            ibu.sub! /IBU /, ''
-          end
-
-          full_text_search = "#{brewery} #{beer_name.to_s.gsub /(\d+|')/, ''} #{beer_type}"  # #{beer_desc.to_s.gsub /\d+\.*\d*%*/, ''}
+          full_text_search = "#{beer['brewery']} #{beer['name'].to_s.gsub /(\d+|')/, ''} #{beer['type']} #{beer['desc'].to_s.gsub(/\d+\.*\d*%*/, '')}"
 
           # price_node = beer_node.css('td')[1].children.to_s
           # price = (price_node.sub /\$/, '').to_f
 
-          gimme_what_you_got[tap_name] = {
+          gimme_what_you_got[beer['tap']] = {
           #     type: tap_type,
           #     remaining: remaining,
-              brewery: brewery.to_s,
-              name: beer_name.to_s,
-              abv: abv.to_f,
-              ibu: ibu.to_i,
-              desc: beer_desc.to_s,
+              brewery: beer['brewery'].to_s,
+              name: beer['name'].to_s,
+              abv: beer['abv'].to_f,
+              ibu: beer['ibu'].to_i,
+              desc: beer['desc'].to_s,
               # price: price,
               search: full_text_search
           }

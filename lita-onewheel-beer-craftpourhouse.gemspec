@@ -1,9 +1,9 @@
 Gem::Specification.new do |spec|
   spec.name          = 'lita-onewheel-beer-craftpourhouse'
-  spec.version       = '0.0.1'
+  spec.version       = '0.0.0'
   spec.authors       = ['Andrew Kreps']
   spec.email         = ['andrew.kreps@gmail.com']
-  spec.description   = %q{Lita interface to ABVPub's Barlistings.}
+  spec.description   = %q{Lita interface to Craftpourhouse's Barlistings.}
   spec.summary       = %q{See above.}
   spec.homepage      = 'https://github.com/onewheelskyward/lita-onewheel-beer-craftpourhouse'
   spec.license       = 'MIT'
